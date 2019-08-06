@@ -1,0 +1,1 @@
+# Blue-print-of-android-architecture-component-with-view-pager
