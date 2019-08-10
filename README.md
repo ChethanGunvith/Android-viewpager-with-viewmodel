@@ -1,7 +1,3 @@
-Mercari Android  Coding assignment
-Requirement :
-Please find below link to understand the requirement -
-https://github.com/m-rec/b8ae8811e0b9fbcd5edd2bcfc6c7f16a6c495e8f/blob/master/SKILL_TEST.en.md
 
 Building
 You can open the project in Android studio and press run.
