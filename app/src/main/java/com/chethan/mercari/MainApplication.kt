@@ -2,10 +2,10 @@ package com.chethan.mercari
 
 import android.app.Activity
 import android.app.Application
-import com.chethan.mercari.di.AppInjector
 import com.facebook.stetho.Stetho
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -13,9 +13,8 @@ import javax.inject.Inject
  * Created by Chethan on 7/30/2019.
  */
 
-class MainApplication : Application(), HasActivityInjector {
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+@HiltAndroidApp
+class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -23,8 +22,5 @@ class MainApplication : Application(), HasActivityInjector {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this);
         }
-        AppInjector.init(this)
     }
-
-    override fun activityInjector() = dispatchingAndroidInjector
 }

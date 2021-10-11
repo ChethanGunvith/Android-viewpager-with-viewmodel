@@ -4,69 +4,51 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.chethan.mercari.R
-import com.chethan.mercari.api.binding.FragmentDataBindingComponent
 import com.chethan.mercari.databinding.CategoryProductsBinding
-import com.chethan.mercari.di.Injectable
 import com.chethan.mercari.model.ProductCategory
 import com.chethan.mercari.testing.OpenForTesting
 import com.chethan.mercari.utils.autoCleared
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * A placeholder fragment containing a simple view.
  */
 @OpenForTesting
-class ProductsFragment : Fragment(), Injectable {
+@AndroidEntryPoint
+class ProductsFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var productsViewModel: ProductsViewModel
+    private val productsViewModel: ProductsViewModel by viewModels()
 
     var binding by autoCleared<CategoryProductsBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dataBinding = DataBindingUtil.inflate<CategoryProductsBinding>(
-            inflater,
-            R.layout.category_products,
-            container,
-            false,
-            dataBindingComponent
-        )
-
-        binding = dataBinding
-        return dataBinding.root
+        binding =
+            CategoryProductsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val categoryUrl = arguments?.getString(CATEGORY_URL)
-        val categoryName = arguments?.getString(CATEGORY_NAME)
-
-        productsViewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(categoryName!!, ProductsViewModel::class.java)
-        productsViewModel.getData(categoryUrl!!, categoryName)
-        binding.setLifecycleOwner(viewLifecycleOwner)
-        productsViewModel.products.observe(viewLifecycleOwner, Observer { result ->
+        val categoryUrl = arguments?.getString(CATEGORY_URL) ?: ""
+        val categoryName = arguments?.getString(CATEGORY_NAME) ?: ""
+        productsViewModel.getData(categoryUrl, categoryName)
+        binding.lifecycleOwner = viewLifecycleOwner
+        productsViewModel.products.observe(viewLifecycleOwner) { result ->
 
             if (result.data != null)
                 context?.let {
-                    if (result.data.size > 0) {
+                    if (result.data.isNotEmpty()) {
                         val productGridAdapter = ProductGridAdapter(it, result.data)
                         binding.productsGridView.adapter = productGridAdapter
                     }
                 }
-        })
+        }
 
 
     }

@@ -2,17 +2,14 @@ package com.chethan.mercari.uiTest
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.chethan.mercari.R
 import com.chethan.mercari.api.binding.FragmentBindingAdapters
-import com.chethan.mercari.di.Injectable
 import com.chethan.mercari.model.ProductOverview
 import com.chethan.mercari.repository.Resource
 import com.chethan.mercari.testing.SingleFragmentActivity

@@ -10,11 +10,15 @@ import com.chethan.mercari.db.ProductCategoryDao
 import com.chethan.mercari.db.ProductsDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class])
+
+@InstallIn(SingletonComponent::class)
+@Module
 class AppModule {
     @Singleton
     @Provides

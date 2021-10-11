@@ -8,9 +8,11 @@ import com.chethan.mercari.model.ProductOverview
 import com.chethan.mercari.repository.ProductsRepository
 import com.chethan.mercari.repository.Resource
 import com.chethan.mercari.testing.OpenForTesting
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @OpenForTesting
+@HiltViewModel
 class ProductsViewModel @Inject constructor(productsRepository: ProductsRepository) : ViewModel() {
 
     private val _categoryName = MutableLiveData<String>()
