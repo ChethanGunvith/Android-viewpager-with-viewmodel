@@ -8,6 +8,7 @@ import com.chethan.mercari.api.NetWorkApi
 import com.chethan.mercari.db.ProductsDao
 import com.chethan.mercari.model.ProductOverview
 import com.chethan.mercari.testing.OpenForTesting
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,9 +39,10 @@ class ProductsRepository @Inject constructor(
             override fun shouldFetch(data: List<ProductOverview>?) = repoListRateLimit.shouldFetch(categoryUrl)
 
             override fun loadFromDb(): LiveData<List<ProductOverview>> {
-                if (categoryName.equals(categoryAll)) return productsDao.loadAllTheProducts()
+                if (categoryName == categoryAll) return productsDao.loadAllTheProducts()
                 else
-                    return productsDao.loadProducts(specialCharacter +categoryName.toLowerCase())
+                    return productsDao.loadProducts(specialCharacter + categoryName.toLowerCase(
+                        Locale.ROOT))
             }
 
             override fun createCall() = netWorkApi.getProducts(categoryUrl)

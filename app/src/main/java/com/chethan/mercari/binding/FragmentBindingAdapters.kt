@@ -1,4 +1,4 @@
-package com.chethan.mercari.api.binding
+package com.chethan.mercari.binding
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView

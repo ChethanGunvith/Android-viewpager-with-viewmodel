@@ -1,10 +1,10 @@
 package com.chethan.mercari.view.Products
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
+import androidx.recyclerview.widget.DiffUtil
+import com.chethan.mercari.AppExecutors
+import com.chethan.mercari.common.DataBoundListAdapter
 import com.chethan.mercari.databinding.ProductEntryBinding
 import com.chethan.mercari.model.ProductOverview
 
@@ -13,27 +13,33 @@ import com.chethan.mercari.model.ProductOverview
  * Created by Chethan on 7/28/2019.
  */
 
-class ProductGridAdapter(private val context: Context, private val listOfProducts: List<ProductOverview>) :
-    BaseAdapter() {
+class ProductGridAdapter(
+    appExecutors: AppExecutors,
+) : DataBoundListAdapter<ProductOverview, ProductEntryBinding>(
+    appExecutors,
+    diffCallback = object : DiffUtil.ItemCallback<ProductOverview>() {
+        override fun areItemsTheSame(
+            oldItem: ProductOverview,
+            newItem: ProductOverview
+        ) = oldItem == newItem
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater = LayoutInflater.from(context)
-        val binding = ProductEntryBinding.inflate(inflater, null, false)
-        binding.productOverview = listOfProducts[position]
-        return binding.root
+        override fun areContentsTheSame(
+            oldItem: ProductOverview,
+            newItem: ProductOverview
+        ) = oldItem == newItem
     }
+) {
 
-    override fun getItem(position: Int): Any {
-        return listOfProducts[position]
+    override fun createBinding(parent: ViewGroup): ProductEntryBinding =
+        ProductEntryBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+
+    override fun bind(
+        binding: ProductEntryBinding,
+        item: ProductOverview
+    ) {
+        binding.productOverview = item
+
     }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getCount(): Int {
-        return listOfProducts.size
-    }
-
-
 }

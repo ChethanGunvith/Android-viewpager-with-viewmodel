@@ -1,4 +1,4 @@
-package com.chethan.mercari.api.binding
+package com.chethan.mercari.binding
 
 import android.view.View
 import android.widget.ImageView
@@ -20,14 +20,14 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("productPrize")
     fun setUserRatings(view: TextView, productPrize: String) {
-        view.text = "$" + productPrize
+        view.text = "$$productPrize"
     }
 
 
     @JvmStatic
     @BindingAdapter("productSoldOutStatus")
     fun setSoldOutImage(view: ImageView, status: String) {
-        if (status.equals("sold_out"))
+        if (status == "sold_out")
             view.visibility = View.VISIBLE
         else view.visibility = View.INVISIBLE
     }

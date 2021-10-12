@@ -1,4 +1,4 @@
-package com.android.example.github.ui.common
+package com.chethan.mercari.common
 
 /**
  * Generic interface for retry buttons.

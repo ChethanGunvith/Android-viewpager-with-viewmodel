@@ -1,7 +1,8 @@
-package com.chethan.mercari.api.binding
+package com.chethan.mercari.binding
 
 import androidx.databinding.DataBindingComponent
 import androidx.fragment.app.Fragment
+import com.chethan.mercari.binding.FragmentBindingAdapters
 
 /**
  * A Data Binding Component implementation for fragments.

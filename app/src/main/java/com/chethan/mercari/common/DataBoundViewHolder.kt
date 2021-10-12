@@ -1,4 +1,4 @@
-package com.android.example.github.ui.common
+package com.chethan.mercari.common
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

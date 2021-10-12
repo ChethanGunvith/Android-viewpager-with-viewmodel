@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import com.chethan.mercari.AppExecutors
 import com.chethan.mercari.databinding.CategoryProductsBinding
 import com.chethan.mercari.model.ProductCategory
+import com.chethan.mercari.repository.Status
 import com.chethan.mercari.testing.OpenForTesting
 import com.chethan.mercari.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,8 +23,10 @@ import javax.inject.Inject
 class ProductsFragment : Fragment() {
 
     private val productsViewModel: ProductsViewModel by viewModels()
-
     var binding by autoCleared<CategoryProductsBinding>()
+
+    @Inject
+    lateinit var appExecutors: AppExecutors
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,22 +38,20 @@ class ProductsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = viewLifecycleOwner
         val categoryUrl = arguments?.getString(CATEGORY_URL) ?: ""
         val categoryName = arguments?.getString(CATEGORY_NAME) ?: ""
+        // Get data from remote / DB
         productsViewModel.getData(categoryUrl, categoryName)
-        binding.lifecycleOwner = viewLifecycleOwner
+        // Set adapter
+        val productGridAdapter = ProductGridAdapter(appExecutors)
+        binding.productsGridView.adapter = productGridAdapter
         productsViewModel.products.observe(viewLifecycleOwner) { result ->
+            result.data?.let {
+                productGridAdapter.submitList(it)
+            }
 
-            if (result.data != null)
-                context?.let {
-                    if (result.data.isNotEmpty()) {
-                        val productGridAdapter = ProductGridAdapter(it, result.data)
-                        binding.productsGridView.adapter = productGridAdapter
-                    }
-                }
         }
-
-
     }
 
     companion object {
@@ -61,13 +62,11 @@ class ProductsFragment : Fragment() {
         private const val CATEGORY_NAME = "category_name"
         private const val CATEGORY_URL = "category_url"
 
-
-        @JvmStatic
         fun newInstance(productCategory: ProductCategory): ProductsFragment {
             return ProductsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(CATEGORY_NAME, productCategory.name.toString())
-                    putString(CATEGORY_URL, productCategory.data.toString())
+                    putString(CATEGORY_NAME, productCategory.name)
+                    putString(CATEGORY_URL, productCategory.data)
                 }
             }
         }

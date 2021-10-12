@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <data>
+
         <variable
                 name="productOverview"
-                type="com.chethan.mercari.model.ProductOverview"/>
+                type="com.chethan.mercari.model.ProductOverview" />
     </data>
 
 
@@ -20,31 +21,30 @@
                 android:layout_height="wrap_content">
 
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivProductImage"
-                    android:layout_width="180dp"
+                    android:layout_width="match_parent"
+                    android:minWidth="200dp"
                     android:layout_height="180dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:contentDescription="@string/product_photo"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:productImageUrl="@{productOverview.photo ?? productOverview.photo}"
-            />
+                    app:productImageUrl="@{productOverview.photo}" />
 
-
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivSoldOut"
-                    android:layout_width="180dp"
+                    android:layout_width="match_parent"
+                    android:minWidth="200dp"
                     android:layout_height="180dp"
                     android:visibility="invisible"
+                    android:scaleType="fitXY"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ivProductImage"
                     android:src="@drawable/ic_sold_out_label"
-                    app:productSoldOutStatus="@{productOverview.status}"
-            />
+                    app:productSoldOutStatus="@{productOverview.status}" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,9 +54,9 @@
                     android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="@id/ivProductImage"
                     app:layout_constraintLeft_toLeftOf="@id/ivProductImage"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvNumberOfLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,9 +66,9 @@
                     android:drawableLeft="@drawable/ic_favorite_border"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ivProductImage"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvNumberOfComments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,9 +78,9 @@
                     android:drawableLeft="@drawable/ic_outline_chat_bubble"
                     app:layout_constraintStart_toEndOf="@id/tvNumberOfLike"
                     app:layout_constraintTop_toBottomOf="@id/ivProductImage"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvNumberOfPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                     app:productPrize="@{productOverview.price}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ivProductImage"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
